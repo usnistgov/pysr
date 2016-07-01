@@ -229,17 +229,20 @@ def main():
     func = toolbox.lambdify(expr=best)
 
     yy = func(*X)
+    
     fig, axes = plt.subplots(2, len(X))
     var_count = 0
-    for ax,_x in zip(axes[0],X):
+    for ax,_x in [(axes[0], X[0])] if len(X)==1 else zip(axes[0],X):
         ax.plot(_x, y, 'b.', markersize=6)
         ax.plot(_x, yy, 'r.', markersize=5)
         ax.set_title('$x_'+str(var_count)+'$ vs. $y$')
         var_count += 1
     var_count = 0
-    for ax,_x in zip(axes[1],X):
+    for ax,_x in [(axes[1], X[0])] if len(X)==1 else zip(axes[1],X):
         ax.plot(_x, yy/y-1, 'r.')
-        ax.set_title('$x_'+str(var_count)+'$ vs. $\\frac{y_{\\mathrm{pred}}}{y_{\\mathrm{true}}}-1$')
+        ax.set_title('$x_'+
+                     str(var_count)+
+                     '$ vs. $\\frac{y_{\\mathrm{pred}}}{y_{\\mathrm{true}}}-1$')
         var_count += 1
 
     sympy_namespace = {}
@@ -259,7 +262,7 @@ def main():
         s = sympy.simplify(s)
     except ValueError:
         pass
-    print()
+    print(best)
     print(s)
 
     figManager = plt.get_current_fig_manager()
