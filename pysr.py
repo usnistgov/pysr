@@ -203,8 +203,8 @@ def evolve(population, toolbox, popSize, cxpb, mutpb, ngen,
 
 def main():
     random.seed(317)
-    
-    pop = toolbox.population(n=popSize*2)
+    numgens = int(sys.argv[2]); popsize = int(sys.argv[3])
+    pop = toolbox.population(n=popsize*2)
 
     hof = tools.HallOfFame(1)
     stats = tools.Statistics(lambda ind: ind.fitness.values)
@@ -217,10 +217,10 @@ def main():
     
     pop, logbook = evolve(pop,
                           toolbox,
-                          int(sys.argv[3]),
+                          popsize,
                           0.7,
                           0.3,
-                          int(sys.argv[2]),
+                          numgens,
                           stats,
                           halloffame=hof,
                           pickleFile=pickleFile)
@@ -229,17 +229,20 @@ def main():
     func = toolbox.lambdify(expr=best)
 
     yy = func(*X)
+
     fig, axes = plt.subplots(2, len(X))
     var_count = 0
-    for ax,_x in zip(axes[0],X):
+    for ax,_x in [(axes[0], X[0])] if len(X)==1 else zip(axes[0],X):
         ax.plot(_x, y, 'b.', markersize=6)
         ax.plot(_x, yy, 'r.', markersize=5)
         ax.set_title('$x_'+str(var_count)+'$ vs. $y$')
         var_count += 1
     var_count = 0
-    for ax,_x in zip(axes[1],X):
+    for ax,_x in [(axes[1], X[0])] if len(X)==1 else zip(axes[1],X):
         ax.plot(_x, yy/y-1, 'r.')
-        ax.set_title('$x_'+str(var_count)+'$ vs. $\\frac{y_{\\mathrm{pred}}}{y_{\\mathrm{true}}}-1$')
+        ax.set_title('$x_'+
+                     str(var_count)+
+                     '$ vs. $\\frac{y_{\\mathrm{pred}}}{y_{\\mathrm{true}}}-1$')
         var_count += 1
 
     sympy_namespace = {}
@@ -259,10 +262,13 @@ def main():
         s = sympy.simplify(s)
     except ValueError:
         pass
-    print()
+
     print(s)
 
+    figManager = plt.get_current_fig_manager()
+    figManager.window.showMaximized()
     plt.show()
+    return {'y':yy, 'pop':pop}
 
 if __name__ == "__main__":
     main()
