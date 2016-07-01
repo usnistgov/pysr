@@ -1,8 +1,15 @@
 # pysr
 a pure-python symbolic regression library built on deap
 
+### Installation
+We use conda, and so should you.
+1. Create new environment with: `conda env create -n ENVIRONMENT_NAME -f environment.yml` where `ENVIRONMENT_NAME` is the name you want for your new environment
+2. Activate with `source activate ENVIRONMENT_NAME` on linux/OSX or `activate ENVIRONENT_NAME` on windows
+3. Deactivate with `source deactivate`
+
 ### Usage
 `python -m scoop pysr.py csvfile numgens popsize`
+
 The first n+1 columns of the CSV are x_0 through x_n. The last column is y.
 
 ### Recommended parameters
