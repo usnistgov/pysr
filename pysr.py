@@ -203,7 +203,7 @@ def evolve(population, toolbox, popSize, cxpb, mutpb, ngen,
 
 def main():
     random.seed(317)
-    
+    numgens = int(sys.argv[2]); popSize = int(sys.argv[3])
     pop = toolbox.population(n=popSize*2)
 
     hof = tools.HallOfFame(1)
@@ -263,6 +263,7 @@ def main():
     print(s)
 
     plt.show()
+    return {'y':yy, 'pop':pop}
 
 if __name__ == "__main__":
     main()
