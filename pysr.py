@@ -204,7 +204,7 @@ def evolve(population, toolbox, popSize, cxpb, mutpb, ngen,
 def main():
     random.seed(317)
     
-    pop = toolbox.population(n=1000)
+    pop = toolbox.population(n=popSize*2)
 
     hof = tools.HallOfFame(1)
     stats = tools.Statistics(lambda ind: ind.fitness.values)
