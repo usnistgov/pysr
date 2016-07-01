@@ -229,7 +229,7 @@ def main():
     func = toolbox.lambdify(expr=best)
 
     yy = func(*X)
-    
+
     fig, axes = plt.subplots(2, len(X))
     var_count = 0
     for ax,_x in [(axes[0], X[0])] if len(X)==1 else zip(axes[0],X):
@@ -262,7 +262,7 @@ def main():
         s = sympy.simplify(s)
     except ValueError:
         pass
-    print(best)
+
     print(s)
 
     figManager = plt.get_current_fig_manager()
