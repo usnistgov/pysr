@@ -203,7 +203,7 @@ def evolve(population, toolbox, popSize, cxpb, mutpb, ngen,
 
 def main():
     random.seed(317)
-    numgens = int(sys.argv[2]); popSize = int(sys.argv[3])
+    numgens = int(sys.argv[2]); popsize = int(sys.argv[3])
     pop = toolbox.population(n=popSize*2)
 
     hof = tools.HallOfFame(1)
@@ -217,10 +217,10 @@ def main():
     
     pop, logbook = evolve(pop,
                           toolbox,
-                          int(sys.argv[3]),
+                          popsize,
                           0.7,
                           0.3,
-                          int(sys.argv[2]),
+                          numgens,
                           stats,
                           halloffame=hof,
                           pickleFile=pickleFile)
