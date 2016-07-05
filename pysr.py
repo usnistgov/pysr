@@ -48,8 +48,9 @@ pset.addPrimitive(lambda x,y: np.nan_to_num(np.multiply(x,y)),
                   2, name='mul')
 pset.addPrimitive(lambda x,y: np.nan_to_num(np.divide(x,y)),
                   2, name='div')
-pset.addPrimitive(lambda x,y: np.nan_to_num(np.power(np.abs(x),np.abs(y))/2),
+pset.addPrimitive(lambda x,y: np.nan_to_num(np.power(np.abs(x),y)),
                   2, name='pow')
+
 pset.addEphemeralConstant('C',    #95% of the time falls within [-100, 100]
                           lambda: random.gauss(0, 50))
 #pset.renameArguments(**{'ARG'+str(i):'x_'+str(i)})
@@ -252,7 +253,8 @@ def main():
     sympy_namespace['sub'] = lambda a,b: sympy.Add(a, -b)
     sympy_namespace['mul'] = sympy.Mul
     sympy_namespace['div'] = lambda a,b: a*sympy.Pow(b,-1)
-    sympy_namespace['pow'] = sympy.Pow
+    sympy_namespace['pow'] = lambda a,b: sympy.Pow(Abs(a), b)
+    sympy_namespace['sin'] = sympy.sin
 
     import re
     str_best = re.sub(r'ARG(\d)',r'x_\1',str(best))
@@ -265,8 +267,12 @@ def main():
 
     print(s)
 
-    figManager = plt.get_current_fig_manager()
-    figManager.window.showMaximized()
+    try:
+        figManager = plt.get_current_fig_manager()
+        figManager.window.showMaximized()
+    except:
+        pass
+    
     plt.show()
     return {'y':yy, 'pop':pop}
 
